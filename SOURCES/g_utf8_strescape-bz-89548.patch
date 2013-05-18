@@ -15,13 +15,14 @@ index 9509233..ff56d54 100644
   *
   * Returns: a newly-allocated copy of @source with certain
 diff --git a/glib/gunicode.h b/glib/gunicode.h
-index d51fa43..2508ae4 100644
+index d51fa43..89e3312 100644
 --- a/glib/gunicode.h
 +++ b/glib/gunicode.h
-@@ -680,6 +680,10 @@ gchar   *g_utf8_strncpy           (gchar       *dest,
+@@ -680,6 +680,11 @@ gchar   *g_utf8_strncpy           (gchar       *dest,
                                     const gchar *src,
                                     gsize        n);
  
++GLIB_AVAILABLE_IN_2_36
 +gchar *
 +g_utf8_strescape      (const gchar *source,
 +                       const gchar *exceptions);
