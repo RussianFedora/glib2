@@ -1,0 +1,86 @@
+diff --git a/glib/gstrfuncs.c b/glib/gstrfuncs.c
+index 9509233..8d3933d 100644
+--- a/glib/gstrfuncs.c
++++ b/glib/gstrfuncs.c
+@@ -2167,6 +2167,65 @@ g_strescape (const gchar *source,
+ }
+ 
+ /**
++ * g_utf8_strescape:
++ * @source: a string to escape
++ * @exceptions: a string of characters not to escape in source
++ *
++ * Escapes the special characters '\b', '\f', '\n', '\r', '\t', '\' and '"' in
++ * the string source by inserting a '\' before them. Characters supplied in
++ * exceptions are not escaped.
++ * Unlike g_strescape() UTF-8 characters are preseved.
++ *
++ * Return value: a newly-allocated copy of @source with certain characters
++ *   escaped. See above.
++ *
++ * Since: 2.24
++ **/
++gchar *
++g_utf8_strescape (const gchar *source,
++                  const gchar *exceptions)
++{
++  GString *result = g_string_new (NULL);
++
++  while (TRUE)
++    {
++      gchar c = *source++;
++
++      switch (c)
++        {
++        case '\0':
++          goto done;
++        case '\n':
++          g_string_append (result, "\\n");
++          break;
++        case '\"':
++          g_string_append (result, "\\\"");
++          break;
++        case '\\':
++          g_string_append (result, "\\\\");
++          break;
++        case '\b':
++          g_string_append (result, "\\b");
++          break;
++        case '\f':
++          g_string_append (result, "\\f");
++          break;
++        case '\r':
++          g_string_append (result, "\\r");
++          break;
++        case '\t':
++          g_string_append (result, "\\t");
++          break;
++        default:
++          g_string_append_c (result, c);
++        }
++    }
++
++ done:
++  return g_string_free (result, FALSE);
++}
++
++/**
+  * g_strchug:
+  * @string: a string to remove the leading whitespace from
+  *
+diff --git a/glib/gunicode.h b/glib/gunicode.h
+index d51fa43..2508ae4 100644
+--- a/glib/gunicode.h
++++ b/glib/gunicode.h
+@@ -680,6 +680,10 @@ gchar   *g_utf8_strncpy           (gchar       *dest,
+                                    const gchar *src,
+                                    gsize        n);
+ 
++gchar *
++g_utf8_strescape      (const gchar *source,
++                       const gchar *exceptions);
++
+ /* Find the UTF-8 character corresponding to ch, in string p. These
+    functions are equivalants to strchr and strrchr */
+ GLIB_AVAILABLE_IN_ALL
+

@@ -9,7 +9,7 @@ URL: http://www.gtk.org
 Source: http://download.gnome.org/sources/glib/2.36/glib-%{version}.tar.xz
 
 #GNOME BZ #89548
-Patch0: g_utf8_strescape-bug-89548.patch
+Patch0: g_utf8_strescape-bz-89548.patch
 
 BuildRequires: pkgconfig
 BuildRequires: gettext
