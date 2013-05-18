@@ -1,12 +1,15 @@
 Summary: A library of handy utility functions
 Name: glib2
 Version: 2.36.2
-Release: 1%{?dist}
+Release: 1.bz89548.%{?dist}
 License: LGPLv2+
 Group: System Environment/Libraries
 URL: http://www.gtk.org
 #VCS: git:git://git.gnome.org/glib
 Source: http://download.gnome.org/sources/glib/2.36/glib-%{version}.tar.xz
+
+#GNOME BZ #89548
+Patch0: g_utf8_strescape-bug-89548.patch
 
 BuildRequires: pkgconfig
 BuildRequires: gettext
@@ -64,6 +67,7 @@ The glib2-fam package contains the FAM (File Alteration Monitor) module for GIO.
 
 %prep
 %setup -q -n glib-%{version}
+%patch0 -p1 -b .g_utf8_strescape
 
 %build
 # Support builds of both git snapshots and tarballs packed with autogoo
@@ -184,6 +188,9 @@ gio-querymodules-%{__isa_bits} %{_libdir}/gio/modules
 %{_libdir}/gio/modules/libgiofam.so
 
 %changelog
+* Sat May 18 2013 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.36.2-1.bz89548
+- Add patch from https://bugzilla.gnome.org/show_bug.cgi?id=89548
+
 * Mon May 13 2013 Richard Hughes <rhughes@redhat.com> - 2.36.2-1
 - Update to 2.36.2
 
