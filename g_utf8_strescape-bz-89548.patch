@@ -1,8 +1,7 @@
-diff --git a/docs/reference/glib/glib-sections.txt b/docs/reference/glib/glib-sections.txt
-index 8c42bce..891d0f4 100644
---- a/docs/reference/glib/glib-sections.txt
-+++ b/docs/reference/glib/glib-sections.txt
-@@ -2780,6 +2780,7 @@ g_utf8_find_next_char
+diff -uNr glib-2.34.2.orig/docs/reference/glib/glib-sections.txt glib-2.34.2/docs/reference/glib/glib-sections.txt
+--- glib-2.34.2.orig/docs/reference/glib/glib-sections.txt	2013-05-19 14:28:05.900569628 +0400
++++ glib-2.34.2/docs/reference/glib/glib-sections.txt	2013-05-19 14:36:28.990286162 +0400
+@@ -2756,6 +2756,7 @@
  g_utf8_find_prev_char
  g_utf8_strlen
  g_utf8_strncpy
@@ -10,11 +9,10 @@ index 8c42bce..891d0f4 100644
  g_utf8_strchr
  g_utf8_strrchr
  g_utf8_strreverse
-diff --git a/glib/gstrfuncs.c b/glib/gstrfuncs.c
-index 9509233..ff56d54 100644
---- a/glib/gstrfuncs.c
-+++ b/glib/gstrfuncs.c
-@@ -2075,6 +2075,11 @@ out:
+diff -uNr glib-2.34.2.orig/glib/gstrfuncs.c glib-2.34.2/glib/gstrfuncs.c
+--- glib-2.34.2.orig/glib/gstrfuncs.c	2013-05-19 14:28:05.935569606 +0400
++++ glib-2.34.2/glib/gstrfuncs.c	2013-05-19 14:33:41.333380821 +0400
+@@ -2060,6 +2060,11 @@
   * replaced with a '\' followed by their octal representation.
   * Characters supplied in @exceptions are not escaped.
   *
@@ -26,11 +24,10 @@ index 9509233..ff56d54 100644
   * g_strcompress() does the reverse conversion.
   *
   * Returns: a newly-allocated copy of @source with certain
-diff --git a/glib/gunicode.h b/glib/gunicode.h
-index d51fa43..8b4ccd7 100644
---- a/glib/gunicode.h
-+++ b/glib/gunicode.h
-@@ -680,6 +680,11 @@ gchar   *g_utf8_strncpy           (gchar       *dest,
+diff -uNr glib-2.34.2.orig/glib/gunicode.h glib-2.34.2/glib/gunicode.h
+--- glib-2.34.2.orig/glib/gunicode.h	2013-05-19 14:28:05.939569603 +0400
++++ glib-2.34.2/glib/gunicode.h	2013-05-19 14:34:14.057362608 +0400
+@@ -637,6 +637,11 @@
                                     const gchar *src,
                                     gsize        n);
  
@@ -41,12 +38,11 @@ index d51fa43..8b4ccd7 100644
 +
  /* Find the UTF-8 character corresponding to ch, in string p. These
     functions are equivalants to strchr and strrchr */
- GLIB_AVAILABLE_IN_ALL
-diff --git a/glib/gutf8.c b/glib/gutf8.c
-index 9244fe8..14e50fb 100644
---- a/glib/gutf8.c
-+++ b/glib/gutf8.c
-@@ -437,6 +437,65 @@ g_utf8_strncpy (gchar       *dest,
+ gchar* g_utf8_strchr  (const gchar *p,
+diff -uNr glib-2.34.2.orig/glib/gutf8.c glib-2.34.2/glib/gutf8.c
+--- glib-2.34.2.orig/glib/gutf8.c	2013-05-19 14:28:05.956569592 +0400
++++ glib-2.34.2/glib/gutf8.c	2013-05-19 14:36:00.307302578 +0400
+@@ -445,6 +445,65 @@
    return dest;
  }
  
@@ -63,7 +59,7 @@ index 9244fe8..14e50fb 100644
 + * Return value: a newly-allocated copy of @source with certain characters
 + *   escaped. See above.
 + *
-+ * Since: 2.24
++ * Since: 2.34
 + **/
 +gchar *
 +g_utf8_strescape (const gchar *source,
