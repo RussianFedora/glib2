@@ -1,17 +1,18 @@
 Summary: A library of handy utility functions
 Name: glib2
-Version: 2.36.2
-Release: 1%{dist}.bz89548
+Version: 2.34.2
+Release: 2%{?dist}
 License: LGPLv2+
 Group: System Environment/Libraries
 URL: http://www.gtk.org
 #VCS: git:git://git.gnome.org/glib
-Source: http://download.gnome.org/sources/glib/2.36/glib-%{version}.tar.xz
+Source: http://download.gnome.org/sources/glib/2.34/glib-%{version}.tar.xz
 
-#GNOME BZ #89548
-Patch0: g_utf8_strescape-bz-89548.patch
+Patch0: codegen-in-datadir.patch
+Patch1: fix-dconf-service.patch
 
 BuildRequires: pkgconfig
+BuildRequires: gamin-devel
 BuildRequires: gettext
 BuildRequires: libattr-devel
 BuildRequires: libselinux-devel
@@ -56,20 +57,15 @@ BuildArch: noarch
 %description doc
 The glib2-doc package includes documentation for the GLib library.
 
-%package fam
-Summary: FAM monitoring module for GIO
-Group: Development/Libraries
-Requires: %{name} = %{version}-%{release}
-BuildRequires: gamin-devel
-
-%description fam
-The glib2-fam package contains the FAM (File Alteration Monitor) module for GIO.
-
 %prep
 %setup -q -n glib-%{version}
-%patch0 -p1 -b .g_utf8_strescape
+%patch0 -p1
+%patch1 -p1
 
 %build
+# Rerun autotools for the above patch
+rm -f configure
+
 # Support builds of both git snapshots and tarballs packed with autogoo
 (if ! test -x configure; then NOCONFIGURE=1 ./autogen.sh; CONFIGFLAGS=--enable-gtk-doc; fi;
  %configure $CONFIGFLAGS \
@@ -139,6 +135,7 @@ gio-querymodules-%{__isa_bits} %{_libdir}/gio/modules
 %dir %{_libdir}/gio
 %dir %{_libdir}/gio/modules
 %ghost %{_libdir}/gio/modules/giomodule.cache
+%{_libdir}/gio/modules/libgiofam.so
 %{_bindir}/gio-querymodules*
 %{_bindir}/glib-compile-schemas
 %{_bindir}/gsettings
@@ -184,56 +181,16 @@ gio-querymodules-%{__isa_bits} %{_libdir}/gio/modules
 %files doc
 %doc %{_datadir}/gtk-doc/html/*
 
-%files fam
-%{_libdir}/gio/modules/libgiofam.so
-
 %changelog
-* Sat May 18 2013 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.36.2-1.bz89548
-- Add patch from https://bugzilla.gnome.org/show_bug.cgi?id=89548
+* Fri Jan 18 2013 Ray Strode <rstrode@redhat.com> 2.34.2-2
+- Fix dconf-service crasher
+  Resolves: #789824
 
-* Mon May 13 2013 Richard Hughes <rhughes@redhat.com> - 2.36.2-1
-- Update to 2.36.2
-
-* Sat Apr 27 2013 Thorsten Leemhuis <fedora@leemhuis.info> - 2.36.1-2
-- Fix pidgin freezes by applying patch from master (#956872)
-
-* Mon Apr 15 2013 Kalev Lember <kalevlember@gmail.com> - 2.36.1-1
-- Update to 2.36.1
-
-* Mon Mar 25 2013 Kalev Lember <kalevlember@gmail.com> - 2.36.0-1
-- Update to 2.36.0
-
-* Tue Mar 19 2013 Matthias Clasen <mclasen@redhat.com> - 2.35.9-1
-- Update to 2.35.9
-
-* Thu Feb 21 2013 Kalev Lember <kalevlember@gmail.com> - 2.35.8-1
-- Update to 2.35.8
-
-* Tue Feb 05 2013 Kalev Lember <kalevlember@gmail.com> - 2.35.7-1
-- Update to 2.35.7
-
-* Tue Jan 15 2013 Matthias Clasen <mclasen@redhat.com> - 2.35.4-1
-- Update to 2.35.4
-
-* Thu Dec 20 2012 Kalev Lember <kalevlember@gmail.com> - 2.35.3-1
-- Update to 2.35.3
-
-* Sat Nov 24 2012 Kalev Lember <kalevlember@gmail.com> - 2.35.2-1
-- Update to 2.35.2
-
-* Thu Nov 08 2012 Kalev Lember <kalevlember@gmail.com> - 2.35.1-1
-- Update to 2.35.1
-- Drop upstreamed codegen-in-datadir.patch
+* Mon Nov 12 2012 Kalev Lember <kalevlember@gmail.com> - 2.34.2-1
+- Update to 2.34.2
 
 * Tue Oct 16 2012 Kalev Lember <kalevlember@gmail.com> - 2.34.1-1
 - Update to 2.34.1
-
-* Wed Oct 10 2012 Tomas Bzatek <tbzatek@redhat.com> - 2.34.0-4
-- Re-enable fam, put it in separate subpackage
-
-* Wed Oct 10 2012 Matthias Clasen <mclasen@redhat.com> - 2.34.0-3
-- Disable fam. We use the inotify implementation at runtime anyway.
-  See http://lists.fedoraproject.org/pipermail/devel/2012-October/172438.htm
 
 * Thu Sep 27 2012 Colin Walters <walters@verbum.org> - 2.34.0-2
 - Use install -p to preserve timestamps on .py files
