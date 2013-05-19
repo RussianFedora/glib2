@@ -1,3 +1,15 @@
+diff --git a/docs/reference/glib/glib-sections.txt b/docs/reference/glib/glib-sections.txt
+index 8c42bce..891d0f4 100644
+--- a/docs/reference/glib/glib-sections.txt
++++ b/docs/reference/glib/glib-sections.txt
+@@ -2780,6 +2780,7 @@ g_utf8_find_next_char
+ g_utf8_find_prev_char
+ g_utf8_strlen
+ g_utf8_strncpy
++g_utf8_strescape
+ g_utf8_strchr
+ g_utf8_strrchr
+ g_utf8_strreverse
 diff --git a/glib/gstrfuncs.c b/glib/gstrfuncs.c
 index 9509233..ff56d54 100644
 --- a/glib/gstrfuncs.c
