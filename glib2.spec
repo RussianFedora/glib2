@@ -63,7 +63,7 @@ The glib2-doc package includes documentation for the GLib library.
 %setup -q -n glib-%{version}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1 .g_utf8_strescape
+%patch2 -p1 -b .g_utf8_strescape
 
 %build
 # Rerun autotools for the above patch
