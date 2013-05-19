@@ -63,7 +63,7 @@ index 9244fe8..14e50fb 100644
 + * Return value: a newly-allocated copy of @source with certain characters
 + *   escaped. See above.
 + *
-+ * Since: 2.24
++ * Since: 2.36
 + **/
 +gchar *
 +g_utf8_strescape (const gchar *source,
