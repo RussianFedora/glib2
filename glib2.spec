@@ -185,7 +185,7 @@ gio-querymodules-%{__isa_bits} %{_libdir}/gio/modules
 %doc %{_datadir}/gtk-doc/html/*
 
 %changelog
-* Sat May 18 2013 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.36.2-1.R
+* Sat May 18 2013 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.34.2-2.R
 - Add patch from https://bugzilla.gnome.org/show_bug.cgi?id=89548
 
 * Fri Jan 18 2013 Ray Strode <rstrode@redhat.com> 2.34.2-2
