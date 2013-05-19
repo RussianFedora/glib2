@@ -43,7 +43,7 @@ index d51fa43..e63bb77 100644
     functions are equivalants to strchr and strrchr */
  GLIB_AVAILABLE_IN_ALL
 diff --git a/glib/gutf8.c b/glib/gutf8.c
-index 9244fe8..14e50fb 100644
+index 9244fe8..a778fca 100644
 --- a/glib/gutf8.c
 +++ b/glib/gutf8.c
 @@ -437,6 +437,65 @@ g_utf8_strncpy (gchar       *dest,
@@ -63,7 +63,7 @@ index 9244fe8..14e50fb 100644
 + * Return value: a newly-allocated copy of @source with certain characters
 + *   escaped. See above.
 + *
-+ * Since: 2.24
++ * Since: 2.38
 + **/
 +gchar *
 +g_utf8_strescape (const gchar *source,
