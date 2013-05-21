@@ -27,7 +27,7 @@ index 9509233..ff56d54 100644
   *
   * Returns: a newly-allocated copy of @source with certain
 diff --git a/glib/gunicode.h b/glib/gunicode.h
-index d51fa43..e63bb77 100644
+index fdf1086..9398d7b 100644
 --- a/glib/gunicode.h
 +++ b/glib/gunicode.h
 @@ -680,6 +680,11 @@ gchar   *g_utf8_strncpy           (gchar       *dest,
@@ -43,10 +43,10 @@ index d51fa43..e63bb77 100644
     functions are equivalants to strchr and strrchr */
  GLIB_AVAILABLE_IN_ALL
 diff --git a/glib/gutf8.c b/glib/gutf8.c
-index 9244fe8..e5ee028 100644
+index 9244fe8..e3083a5 100644
 --- a/glib/gutf8.c
 +++ b/glib/gutf8.c
-@@ -437,6 +437,90 @@ g_utf8_strncpy (gchar       *dest,
+@@ -437,6 +437,93 @@ g_utf8_strncpy (gchar       *dest,
    return dest;
  }
  
@@ -69,33 +69,29 @@ index 9244fe8..e5ee028 100644
 +g_utf8_strescape (const gchar *source,
 +                  const gchar *exceptions)
 +{
-+  const gchar *p;
++  const gchar p = source;
 +  GString *result;
 +  guchar excmap[256];
-+  gunichar c;
 +
-+  g_return_val_if_fail (source != NULL, NULL);
-+  g_return_val_if_fail (g_utf8_validate (source, -1, NULL), NULL);
++  g_return_val_if_fail (p != NULL, NULL);
++  g_return_val_if_fail (g_utf8_validate (p, -1, NULL), NULL);
 +
-+  p = (gchar *) utf8_source;
-+
-+  memset (excmap, 0, 256);
++  memset (excmap, 0, sizeof excmap);
 +  if (exceptions)
 +    {
-+      guchar *e = (guchar *) exceptions;
-+
-+      while (*e)
++      while (*exceptions)
 +	{
-+	  excmap[*e] = 1;
-+	  e++;
++	  excmap[(guchar) *exceptions] = 1;
++	  exceptions++;
 +	}
 +    }
 +
 +  result = g_string_new (NULL);
 +  while (*p)
 +    {
-+      c = g_utf8_get_char (p);
-+      if (c < sizeof (excmap) && excmap[c])
++      gunichar c = g_utf8_get_char (p);
++
++      if (c < sizeof excmap && excmap[c])
 +	g_string_append_c (result, c);
 +      else
 +	{
@@ -126,7 +122,14 @@ index 9244fe8..e5ee028 100644
 +	      g_string_append (result, "\\\"");
 +	      break;
 +	    default:
-+	      g_string_append_unichar (result, c);
++	      if (c < ' ')
++		{
++		  g_string_append (result, "\\0");
++		  g_string_append_c (result, '0' + ((c >> 3) & 07));
++		  g_string_append_c (result, '0' + (c & 07));
++		}
++	      else
++		g_string_append_unichar (result, c);
 +	    }
 +	}
 +      p = g_utf8_next_char (p);
