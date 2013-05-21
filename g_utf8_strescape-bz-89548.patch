@@ -43,10 +43,10 @@ index d51fa43..e63bb77 100644
     functions are equivalants to strchr and strrchr */
  GLIB_AVAILABLE_IN_ALL
 diff --git a/glib/gutf8.c b/glib/gutf8.c
-index 9244fe8..a778fca 100644
+index 9244fe8..301f3f4 100644
 --- a/glib/gutf8.c
 +++ b/glib/gutf8.c
-@@ -437,6 +437,65 @@ g_utf8_strncpy (gchar       *dest,
+@@ -437,6 +437,89 @@ g_utf8_strncpy (gchar       *dest,
    return dest;
  }
  
@@ -69,43 +69,67 @@ index 9244fe8..a778fca 100644
 +g_utf8_strescape (const gchar *source,
 +                  const gchar *exceptions)
 +{
-+  GString *result = g_string_new (NULL);
++  const gchar *p;
++  GString *result;
++  guchar excmap[256];
++  gunichar c;
 +
-+  while (TRUE)
++  g_return_val_if_fail (source != NULL, NULL);
++  g_return_val_if_fail (g_utf8_validate (source, -1, NULL), NULL);
++
++  p = (gchar *) source;
++
++  memset (excmap, 0, 256);
++  if (exceptions)
 +    {
-+      gchar c = *source++;
++      guchar *e = (guchar *) exceptions;
 +
-+      switch (c)
-+        {
-+        case '\0':
-+          goto done;
-+        case '\n':
-+          g_string_append (result, "\\n");
-+          break;
-+        case '\"':
-+          g_string_append (result, "\\\"");
-+          break;
-+        case '\\':
-+          g_string_append (result, "\\\\");
-+          break;
-+        case '\b':
-+          g_string_append (result, "\\b");
-+          break;
-+        case '\f':
-+          g_string_append (result, "\\f");
-+          break;
-+        case '\r':
-+          g_string_append (result, "\\r");
-+          break;
-+        case '\t':
-+          g_string_append (result, "\\t");
-+          break;
-+        default:
-+          g_string_append_c (result, c);
-+        }
++      while (*e)
++	{
++	  excmap[*e] = 1;
++	  e++;
++	}
 +    }
 +
-+ done:
++  result = g_string_new (NULL);
++  while ((c = g_utf8_get_char (p)))
++    {
++      if (c < sizeof (excmap) && excmap[c])
++	g_string_append_c (result, c);
++      else
++	{
++	  switch (c)
++	    {
++	    case '\b':
++	      g_string_append (result, "\\b");
++	      break;
++	    case '\f':
++	      g_string_append (result, "\\f");
++	      break;
++	    case '\n':
++	      g_string_append (result, "\\n");
++	      break;
++	    case '\r':
++	      g_string_append (result, "\\r");
++	      break;
++	    case '\t':
++	      g_string_append (result, "\\t");
++	      break;
++	    case '\v':
++	      g_string_append (result, "\\v");
++	      break;
++	    case '\\':
++	      g_string_append (result, "\\\\");
++	      break;
++	    case '"':
++	      g_string_append (result, "\\\"");
++	      break;
++	    default:
++	      g_string_append_unichar (result, c);
++	    }
++	}
++      p = g_utf8_find_next_char (p, NULL);
++    }
 +  return g_string_free (result, FALSE);
 +}
 +
