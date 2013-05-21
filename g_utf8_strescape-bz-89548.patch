@@ -34,7 +34,7 @@ index d51fa43..e63bb77 100644
                                     const gchar *src,
                                     gsize        n);
  
-+GLIB_AVAILABLE_IN_2_38
++GLIB_AVAILABLE_IN_2_36
 +gchar *
 +g_utf8_strescape      (const gchar *source,
 +                       const gchar *exceptions);
@@ -63,7 +63,7 @@ index 9244fe8..301f3f4 100644
 + * Return value: a newly-allocated copy of @source with certain characters
 + *   escaped. See above.
 + *
-+ * Since: 2.38
++ * Since: 2.36
 + **/
 +gchar *
 +g_utf8_strescape (const gchar *source,
