@@ -188,6 +188,9 @@ gio-querymodules-%{__isa_bits} %{_libdir}/gio/modules
 %{_libdir}/gio/modules/libgiofam.so
 
 %changelog
+* Tue May 21 2013 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.36.2-1.1.R
+- Update patch from https://bugzilla.gnome.org/show_bug.cgi?id=89548
+
 * Sat May 18 2013 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.36.2-1.R
 - Add patch from https://bugzilla.gnome.org/show_bug.cgi?id=89548
 
