@@ -43,10 +43,10 @@ index d51fa43..e63bb77 100644
     functions are equivalants to strchr and strrchr */
  GLIB_AVAILABLE_IN_ALL
 diff --git a/glib/gutf8.c b/glib/gutf8.c
-index 9244fe8..301f3f4 100644
+index 9244fe8..e5ee028 100644
 --- a/glib/gutf8.c
 +++ b/glib/gutf8.c
-@@ -437,6 +437,89 @@ g_utf8_strncpy (gchar       *dest,
+@@ -437,6 +437,90 @@ g_utf8_strncpy (gchar       *dest,
    return dest;
  }
  
@@ -77,7 +77,7 @@ index 9244fe8..301f3f4 100644
 +  g_return_val_if_fail (source != NULL, NULL);
 +  g_return_val_if_fail (g_utf8_validate (source, -1, NULL), NULL);
 +
-+  p = (gchar *) source;
++  p = (gchar *) utf8_source;
 +
 +  memset (excmap, 0, 256);
 +  if (exceptions)
@@ -92,8 +92,9 @@ index 9244fe8..301f3f4 100644
 +    }
 +
 +  result = g_string_new (NULL);
-+  while ((c = g_utf8_get_char (p)))
++  while (*p)
 +    {
++      c = g_utf8_get_char (p);
 +      if (c < sizeof (excmap) && excmap[c])
 +	g_string_append_c (result, c);
 +      else
@@ -128,7 +129,7 @@ index 9244fe8..301f3f4 100644
 +	      g_string_append_unichar (result, c);
 +	    }
 +	}
-+      p = g_utf8_find_next_char (p, NULL);
++      p = g_utf8_next_char (p);
 +    }
 +  return g_string_free (result, FALSE);
 +}
