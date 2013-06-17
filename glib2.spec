@@ -1,7 +1,7 @@
 Summary: A library of handy utility functions
 Name: glib2
 Version: 2.34.2
-Release: 2%{?dist}
+Release: 2.1%{?dist}
 License: LGPLv2+
 Group: System Environment/Libraries
 URL: http://www.gtk.org
@@ -10,8 +10,6 @@ Source: http://download.gnome.org/sources/glib/2.34/glib-%{version}.tar.xz
 
 Patch0: codegen-in-datadir.patch
 Patch1: fix-dconf-service.patch
-#GNOME BZ #89548
-Patch2: g_utf8_strescape-bz-89548.patch
 
 BuildRequires: pkgconfig
 BuildRequires: gamin-devel
@@ -63,7 +61,6 @@ The glib2-doc package includes documentation for the GLib library.
 %setup -q -n glib-%{version}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1 -b .g_utf8_strescape
 
 %build
 # Rerun autotools for the above patch
@@ -185,7 +182,10 @@ gio-querymodules-%{__isa_bits} %{_libdir}/gio/modules
 %doc %{_datadir}/gtk-doc/html/*
 
 %changelog
-* Sat May 18 2013 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.34.2-2.R
+* Mon Jun 17 2013 igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.34.2-2.1
+- Delete previous patch (not needed)
+
+* Sat May 18 2013 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.34.2-2
 - Add patch from https://bugzilla.gnome.org/show_bug.cgi?id=89548
 
 * Fri Jan 18 2013 Ray Strode <rstrode@redhat.com> 2.34.2-2
