@@ -184,6 +184,7 @@ gio-querymodules-%{__isa_bits} %{_libdir}/gio/modules
 %changelog
 * Mon Jun 17 2013 igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.34.2-2.1
 - Delete previous patch (not needed)
+- Sync with oficial package
 
 * Sat May 18 2013 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.34.2-2
 - Add patch from https://bugzilla.gnome.org/show_bug.cgi?id=89548
